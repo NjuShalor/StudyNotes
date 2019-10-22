@@ -1,0 +1,87 @@
+createdAt: "2019-10-22T13:09:29.589Z"
+updatedAt: "2019-10-22T15:24:19.530Z"
+type: "MARKDOWN_NOTE"
+folder: "cf97a4deed47e7809d34"
+title: "网络编程"
+tags: []
+content: '''
+  # 网络编程
+  
+  ## 网络UDP ##
+  
+  ### 1.概述 ###
+  
+    简单讲，就是将不同设备上的数据进行共享
+      
+  ### 2.ip地址 ###
+    - 类似于192.168.1.1
+    - 作用：用于标记网络中的一台设备，在本地局域网下是唯一的
+    - windows中查看：在终端中输入` ipconfig`  
+    - ip地址的分类 (ip地址=网络地址+主机地址)
+      - A类：1组网络号(开头必为0)，3组主机号
+      - B类：2组网络号（开头为10），2组主机号
+      - C类：3组网络号（开头为110），1组主机号
+      - D类：用于多播
+      - E类：用于保留
+  - ip v4由于不够用，现在逐渐开始使用ip v6
+  
+  ### 3.端口 ###
+      Q：同局域网中的一个电脑上的qq怎么发送消息到另一个电脑上的qq？
+      A：发送的时候，包含了dest_ip(目标ip),src_ip(源ip),dest_port(目标端口),
+         src_port(源端口),content(发送内容)
+    - 简单讲,ip标识设备，port标识设备上运行的某一程序
+    - 端口号的分配和知名端口
+      - 端口号不是随意使用的，而是按照一定规则进行分配
+      - 知名端口是众所知周的端口：0~1023，例如：80端口分配给HTTP服务，21端口分配给FTP服务
+        即在1024之内的端口是规定的，不能乱用，大于等于1024的可以随意用
+      - 动态端口(1024 - 65535)
+  
+  ### 4.socket简介 ###
+    - 不同电脑上的进程之间如何通信？
+    利用**ip地址，协议，端口**来标识网络的进程
+    
+    - 什么是socket？
+      socket(简称***套接字***)是进程通信的一种方式，它与其他进程间通信的一个主要不同是：
+      它能实现不同主机间的进程通信，我们网络上各种各样的服务大多都是基于Socket来完成通信的
+      
+    - **创建socket** 
+    
+          import socket
+          socket.socket(AddressFamily,Type)
+          
+          说明：
+          AddressFamily:可以选择AF_INET(用于Internet进程间通信)，或者AF_UNIX(用于同
+          一台机器进程间的通信)，实际工作中常用AF_INET
+          
+          Type:套接字类型，可以是SOCK_STREAM(流式套接字，主要用于TCP协议)，
+          或者SOCK_DGRAM(数据报套接字，主要用于UDP协议)
+        
+      - 创建tcp socket
+        ```
+        import socket
+        
+        # 创建tcp套接字
+        s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+        
+        # ...这里是使用套接字的功能...
+        
+        s.close()
+        ```
+      - 创建udp socket
+        ```
+        import socket
+        
+        # 创建udp套接字
+        s = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+        
+        # ...这里是使用套接字的功能...
+        
+        s.close()
+        ```
+    
+      
+    
+'''
+linesHighlighted: []
+isStarred: false
+isTrashed: false
