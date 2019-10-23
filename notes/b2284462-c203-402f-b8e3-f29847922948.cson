@@ -1,10 +1,51 @@
 createdAt: "2019-10-22T13:04:13.717Z"
-updatedAt: "2019-10-22T13:05:38.228Z"
+updatedAt: "2019-10-23T14:10:58.096Z"
 type: "MARKDOWN_NOTE"
 folder: "c37e1d68ae43af6fec7a"
-title: ""
+title: "环境配置"
 tags: []
-content: ""
+content: '''
+  # 环境配置
+  
+  ## MongoDB的安装配置
+  1. 下载安装mongodb
+  2. 进入到安装的目录下，在bin文件的同级目录下，如果没有data文件夹，新建一个data文件夹(用于存储MongoDB的数据)，再在data文件夹中新建一个db文件夹
+  3. 在终端(cmd)下进入bin目录，输入`mongod --dbpath D:\\Tools\\MongoDB\\data\\db`
+  4. 怎么验证MongoDB启动成功呢？在浏览器中输出`localhost:27017`,会出现以下的显示
+  
+          It looks like you are trying to access MongoDB over HTTP on the native driver port.
+  5. 在终端下进入bin目录，然后输入`mongo`进入MongoDB的客户端命令行模式,如果启动成功会出现箭头形式的提示符让我们输入命令进行操作
+  
+  
+  ## 将MongoDB配置成系统服务，用可视化工具进行操作
+  1. 使用管理员打开终端cmd，进入bin目录
+  2. 如果没有log文件夹，可以自己建立log文件夹(可以放在bin同级目录下，也可以放在data目录下，无所谓)，然后进入其中创建一个mongod.log文件
+  3. 在管理员的cmd中在bin目录下，执行`mongod --bind_ip 0.0.0.0 --logpath D:\\Tools\\MongoDB\\log\\mongo.log --logappend --dbpath D:\\Tools\\MongoDB\\data\\db --port 27017 --serviceName "MongoDB" --serviceDisplayName "MongoDB" --install`
+  
+          各个参数的含义：
+          bind_ip 0.0.0.0 --- 表示任何ip均可访问
+          logpath --- 表示mongo.log的存放路径
+          logappend --- 表示日志以追加的形式进行记录
+          dbpath --- 表示db的路径
+          serviceName 和 serviceDisplayName 分别表示服务器名称和显示名称
+          
+  4. 在**我的电脑**处右击，点击**管理**，选择**服务和应用程序/服务**,可以查看是否将MongoDB配置成系统服务
+  
+  
+  ## Redis配置
+  1. 下载安装Redis
+  2. 下载安装Redis的可视化界面RedisDesktopManager(RDM)
+  3. 进入Redis目录下，执行`redis-server.exe redis.windows.conf`
+  
+          如果出现[22252] 23 Oct 21:53:29.129 # Creating Server TCP listening socket 
+          *:6379: bind: No error诸如此类的错误，可以依次执行如下操作：
+          1. redis-cli.exe
+          2. shutdown
+          3. exit
+          4. redis-server.exe redis.windows.conf
+  4. 上一步执行成功后，另启一个cmd窗口，输入`redis-cli.exe -h 127.0.0.1 -p 6379`即可进入redis
+  5. 打开RDM，连接redis即可
+'''
 linesHighlighted: []
 isStarred: false
 isTrashed: false

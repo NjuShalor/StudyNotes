@@ -1,0 +1,60 @@
+createdAt: "2019-10-23T14:27:22.179Z"
+updatedAt: "2019-10-23T15:03:24.339Z"
+type: "MARKDOWN_NOTE"
+folder: "c37e1d68ae43af6fec7a"
+title: "Python爬虫基本库介绍"
+tags: []
+content: '''
+  # Python爬虫基本库介绍
+  
+  ## urllib/re
+    python的内置库，不需要安装
+  
+  ## requests
+  网页请求常用的库,使用`pip install requests`即可
+  
+  ## selenium
+  用来驱动浏览器的库，遇到用js渲染的网页会使得requests无法正确获取请求内容，使用selenium可以驱动浏览器，让浏览器直接执行js渲染，得到的结果就是渲染之后的结果
+  **安装步骤：**
+  1. 执行`pip install selenium`安装selenium
+  2. 下载安装chromedriver
+  3. 将chromedriver.exe放进python目录下的Scripts目录下，和pip同级目录
+  
+  ## phantomjs
+  类似于Chrome，但是执行时不同弹出浏览器，可以在后台静默的运行
+  **安装步骤**
+  1. 下载PhantomJS
+  2. 将PhantomJS配置进环境变量
+  3. 进入cmd终端，输入`phantomjs`看是否成功进入，成功进入后输入`console.log('Hello World')`
+  
+  
+  ## lxml
+  提供了xpath的解析方式，输入`pip install lxml`
+  
+  ## beautifulsoup
+  网页解析库，并且依赖lxml，输入`pip install beautifulsoup4`
+  
+  ## pyquery
+  网页解析库，输入`pip install pyquery`
+  
+  ## pymysql
+  用于连接mysql，输入`pip install pymysql`
+  
+  ## pymongo
+  用于操作mongo，输入`pip install pymongo`
+  
+  ## redis
+  用于分布式爬虫，维护一个爬取队列，输入`pip install redis`
+  
+  ## flask
+  这是一个web库，对于代理的设置会用到这个库，输入`pip install flask`
+  
+  ## Django
+  web框架，输入`pip install django`
+  
+  ## jupyter
+  一个运行在网页端的记事本，可以写代码、调试等，输入`pip install jupyter`
+'''
+linesHighlighted: []
+isStarred: false
+isTrashed: false
