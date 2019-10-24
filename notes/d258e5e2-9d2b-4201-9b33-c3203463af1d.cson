@@ -1,0 +1,17 @@
+createdAt: "2019-10-24T06:34:36.557Z"
+updatedAt: "2019-10-24T06:36:03.798Z"
+type: "SNIPPET_NOTE"
+folder: "c37e1d68ae43af6fec7a"
+title: ""
+tags: []
+description: ""
+snippets: [
+  {
+    linesHighlighted: []
+    name: "test.py"
+    mode: "Python"
+    content: ""
+  }
+]
+isStarred: false
+isTrashed: true

@@ -1,0 +1,217 @@
+createdAt: "2019-10-24T12:42:13.847Z"
+updatedAt: "2019-10-24T15:17:36.224Z"
+type: "MARKDOWN_NOTE"
+folder: "c37e1d68ae43af6fec7a"
+title: "Requests库详解"
+tags: []
+content: '''
+  # Requests库详解
+  ## 几个实例
+  ```
+  import requests
+  
+  response = requests.get('https://www.baidu.com/')
+  print(type(response))
+  print(response.status_code)
+  print(type(response.text))
+  print(response.text)
+  print(response.cookies)
+  
+  requests.post('http://httpbin.org/post')
+  requests.put('http://httpbin.org/put')
+  requests.delete('http://httpbin.org/delete')
+  requests.head('http://httpbin.org/get')
+  requests.options('http://httpbin.org/get')
+  ```
+  
+  ## 基本GET请求
+  ### 基本写法
+  ```
+  import requests
+  
+  response = requests.get('http://httpbin.org/get')
+  print(response.text)
+  ```
+  ### 带参数的GET请求
+  可以写在url中，也可以用一个字典形式的结构存储参数，然后放入get()中
+  ```
+  import requests
+  
+  # response = requests.get('http://httpbin.org/get?name=germey&age=22')
+  data = {
+      'name':'germey',
+      'age':22
+  }
+  response = requests.get('http://httpbin.org/get',params=data)
+  print(response.text)
+  ```
+  
+  ### 解析Json
+      其实response.json()和json.loads()方法返回的结果是一致的
+  ```
+  import requests
+  import json
+  
+  response = requests.get('http://httpbin.org/get')
+  print(type(response.text))
+  print(response.json())
+  print(type(response.json()))
+  print(json.loads(response.text))
+  ```
+  
+  ### 获取二进制数据(图片、视频等)
+  ```
+  import requests
+  
+  
+  response = requests.get('http://static.oneplus.cn/data/attachment/forum/201806/06/140105tnjyhbf4mjnqyppw.jpg')
+  print(type(response.text),type(response.content))
+  
+  # 直接打开文件，将图片写入即可
+  with open('C:/Users/Shalor/Desktop/suolong.jpg','wb') as f:
+      f.write(response.content)
+      f.close()
+  ```
+  
+  ### 添加headers
+  ```
+  import requests
+  
+  headers = {
+      'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.70 Safari/537.36'
+  }
+  response = requests.get('https://www.zhihu.com/explore',headers=headers)
+  print(response.text)
+  ```
+  
+  ## 基本POST请求
+      post方法和get方法时类似的，只要换一下方法名称接口
+  ```
+  import requests
+  data = {'name':'Germey','age':'22'}
+  response = requests.post('http://httpbin.org/post',data=data)
+  print(response.text)
+  ```
+  
+  ## 响应response
+  
+  ### response属性
+  ```
+  import requests
+  
+  response = requests.get('http://www.jianshu.com')
+  print(type(response.status_code),response.status_code)
+  print(type(response.headers),response.headers)
+  print(type(response.cookies),response.cookies)
+  print(type(response.url),response.url)
+  print(type(response.history),response.history)
+  ```
+  
+  ### 状态码的判断
+  ```
+  import requests
+  
+  response = requests.get('http://www.jianshu.com/hello.html')
+  exit() if not response.status_code == requests.codes.not_found else print("404 not found")
+  ```
+  
+  ## Requests高级操作
+  ### 文件上传
+  ```
+  import requests
+  
+  files = {'file':open('C:/Users/Shalor/Desktop/suolong.jpg','rb')}
+  response = requests.post('http://httpbin.org/post',files=files)
+  print(response.text)
+  ```
+  ### 获取cookie
+  ```
+  import requests
+  
+  response = requests.get('http://www.baidu.com')
+  print(response.cookies)
+  for key,value in response.cookies.items():
+      print(key + '=' + value)
+  ```
+  ### 会话维持
+      如果先设置cookie然后再访问cookie，得到的结果是null，但是如果在同一个会话中，访问
+      cookie就是之前设置的
+  ```
+  import requests
+  
+  # # 这个结果是空的
+  # requests.get('http://httpbin.org/cookies/set/number/123456')
+  # response = requests.get('http://httpbin.org/cookies')
+  # print(response.text)
+  
+  s = requests.Session()
+  s.get('http://httpbin.org/cookies/set/number/123456789')
+  response = s.get('http://httpbin.org/cookies')
+  print(response.text)
+  ```
+  ### ssl证书验证
+  ```
+  import requests
+  from requests.packages import urllib3
+  urllib3.disable_warnings() # 用来消除证书验证的警告信息的
+  
+  response = requests.get('https://www.12306.cn',verify=False)
+  print(response.status_code)
+  ```
+  **还能从本地导入证书进行验证**
+  ```
+  import requests
+  response = requests.get(url,cert=('/path/server.crt','/path/key'))
+  ```
+  
+  ### 代理设置
+  **http代理**
+  ```
+  import requests
+  
+  proxies = {
+      # 'http':'http://127.0.0.1:9743',
+      # 对于有密码的代理
+      'http':'http://user:password@127.0.0.1:9743/'
+      'https':'https://127.0.0.1:9743'
+  }
+  response = requests.get('https://www.taobao.com',proxies=proxies)
+  print(response.status_code)
+  ```
+  **socks代理**
+  ```
+  import requests
+  
+  proxies = {
+      'http':'socks5://127.0.0.1:9743/'
+      'https':'socks5://127.0.0.1:9743'
+  }
+  response = requests.get('https://www.taobao.com',proxies=proxies)
+  print(response.status_code)
+  ```
+  
+  ### 超时设置
+  **如果设置了timeout，在设定时间内没有响应，就会抛出异常，可以在外层加try来捕获异常**
+  ```
+  import requests
+  from requests.exceptions import ReadTimeout
+  try:
+      response = requests.get('https://www.taobao.com',timeout=0.01)
+      print(response.status_code)
+  except ReadTimeout:
+      print("TIME OUT")
+  ```
+  
+  ### 认证设置
+  **对于需要登入认证的网站，需要加上auth参数**
+  ```
+  import requests
+  from requests.auth import HTTPBasicAuth
+  
+  response = requests.get('https://www.taobao.com',auth=HTTPBasicAuth('user','123'))
+  print(response.status_code)
+  ```
+'''
+linesHighlighted: []
+isStarred: false
+isTrashed: false

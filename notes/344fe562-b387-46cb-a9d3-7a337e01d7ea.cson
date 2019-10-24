@@ -1,0 +1,199 @@
+createdAt: "2019-10-24T06:36:17.467Z"
+updatedAt: "2019-10-24T12:40:34.686Z"
+type: "MARKDOWN_NOTE"
+folder: "c37e1d68ae43af6fec7a"
+title: "Urllib库的相关用法"
+tags: []
+content: '''
+  # Urllib库的相关用法
+  
+  Urllib是python内置的HTTP请求库，常用的模块有：
+  1. urllib.request  请求模块
+  2. urllib.error  异常处理模块
+  3. urllib.parse  url解析模块
+  4. urllib.rototparser  robots.txt解析模块
+  
+  ## urlopen方法
+      urllib.request.urlopen(url,data=None,[timeout,]*,cafile=None,capath=None,cadefault=False,context=None)
+  ```
+  # 用urlopen请求百度网址
+  import urllib.request
+  
+  response = urllib.request.urlopen('http://www.baidu.com')
+  print(response.read().decode("utf-8"))
+  
+  
+  # 对post类型的请求
+  import urllib.request
+  import urllib.parse
+  
+  data = bytes(urllib.parse.urlencode({'world':'hello'}),encoding='utf8')
+  # 对于urlopen如果我们加上data参数，就以post形式发送请求，如果不加，就以get方式发送
+  response = urllib.request.urlopen('http://httpbin.org/post',data=data)
+  print(response.read())
+  
+  
+  # timeout参数
+  import socket
+  import urllib.request
+  import urllib.error
+  try:
+      response = urllib.request.urlopen('http://httpbin.org/get',timeout=0.1)
+  except urllib.error.URLError as e:
+      if isinstance(e.reason,socket.timeout):
+          print("TIME OUT")
+  ```
+  
+  ## 响应
+  ```
+  # 响应类型 http.client.HTTPResponse
+  import urllib.request
+  
+  response = urllib.request.urlopen('https://www.python.org')
+  print(type(response))
+  # 输出响应状态码
+  print(response.status)
+  # 输出响应头信息
+  print(response.getheaders())
+  print(response.getheader('Server'))
+  ```
+  
+  ## Request
+  将url构造成Request传给urlopen打开解析网址，和直接用urlopen打开网址是一样的
+  ```
+  import urllib.request
+  
+  request = urllib.request.Request('https://www.python.org')
+  response = urllib.request.urlopen(request)
+  print(response.read().decode('utf-8'))
+  ```
+  可以传入headers信息，构造request
+  ```
+  from urllib import request,parse
+  
+  url = "http://httpbin.org/post"
+  # headers = {
+  #     'User-Agent':"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.70 Safari/537.36",
+  #     'Host':'httpbin.org'
+  # }
+  dict = {'name':'Germey'}
+  data = bytes(parse.urlencode(dict),encoding='utf8')
+  # req = request.Request(url=url,data=data,headers=headers,method="POST")
+  # 可以使用add_header方法
+  req = request.Request(url=url,data=data,method="POST")
+  req.add_header("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.70 Safari/537.36")
+  response = request.urlopen(req)
+  print(response.read().decode('utf-8'))
+  ```
+  
+  ## Handler
+  
+  ### 代理
+  ```
+  import urllib.request
+  
+  proxy_handler = urllib.request.ProxyHandler({
+      'http':'http://127.0.0.1:7348',
+      'https':'https://127.0.0.1:7348'
+  })
+  opener = urllib.request.build_opener(proxy_handler)
+  response = opener.open('http://www/baidu.com')
+  print(response.read())
+  ```
+  ### cookie
+  cookie是在客户端保存的，用来记录用户身份的文本文件，爬虫中cookie用来维持登录状态的
+  ```
+  import http.cookiejar,urllib.request
+  
+  cookie = http.cookiejar.CookieJar()
+  handler = urllib.request.HTTPCookieProcessor(cookie)
+  opener = urllib.request.build_opener(handler)
+  response = opener.open('http://www.baidu.com')
+  for item in cookie:
+      print(item.name+"="+item.value)
+  ```
+  cookie信息可以保存为文本文件
+  ```
+  import http.cookiejar,urllib.request
+  filename = "cookie.txt"
+  # 可以有两种cookie保存格式
+  # cookie = http.cookiejar.MozillaCookieJar(filename) 
+  # cookie = http.cookiejar.LWPCookieJar(filename)
+  # 加载cookie
+  cookie = http.cookiejar.LWPCookieJar()
+  cookie.load('cookie.txt',ignore_discard=True,ignore_expires=True)
+  handler = urllib.request.HTTPCookieProcessor(cookie)
+  opener = urllib.request.build_opener(handler)
+  response = opener.open('http://www.baidu.com')
+  # cookie.save(ignore_discard=True,ignore_expires=True)
+  print(response.read().decode('utf-8'))
+  ```
+  ## 异常处理
+  ```
+  from urllib import request,error
+  
+  # 在抛出异常前，可以先写HTTPError，因为HTTPError是URLError的子类
+  try:
+      response = request.urlopen("http://www.baidu.com/index.html")
+  except error.HTTPError as e:
+      print(e.reason)
+      print(e.code)
+      print(e.headers)
+  except error.URLError as e:
+      print(e.reason)
+  else:
+      print("Request Successfully")
+  
+  ```
+  ```
+  import socket,urllib.request,urllib.error
+  
+  try:
+      response = urllib.request.urlopen('http://www.baidu.com',timeout=0.01)
+  except urllib.error.URLError as e:
+      print(type(e.reason))
+      print(e.reason)
+      if isinstance(e.reason,socket.timeout):
+          print("TIME OUT")
+  ```
+  
+  ## URL解析
+  ### urlparse
+      urllib.parse.urlparse(urlstring,scheme='',allow_fragments=True)
+      注意：当urlstring中有协议类型时，scheme指定将失效,将url分成6个字段
+  ```
+  from urllib import parse
+  
+  result = parse.urlparse('http://www.baidu.com/index.html;user?id=5#comment')
+  print(result)
+  ```
+  ### urlunparse
+  作用和urlparse相反，即将各部分拼接成一个完整的url
+  ```
+  from urllib.parse import urlunparse
+  data = ['http','www.baidu.com','index.html','user','a=6','comment']
+  print(urlunparse(data))
+  ```
+  ### urljoin
+      urljoin(url1,url2)---即将两个url分成6个字段，后面的url2字段如果存在会覆盖前面url对应字段
+  ```
+  from urllib.parse import urljoin
+  print(urljoin('http://www.baidu.com','FAQ.html')) # http://www.baidu.com/FAQ.html
+  print(urljoin('http://www.baidu.com','https://cuiskdfk.com/FAQ.html')) # https://cuiskdfk.com/FAQ.html
+  ```
+  ### urlencode
+  ```
+  from urllib.parse import urlencode
+  
+  params = {
+      'name':'germey',
+      'age':22
+  }
+  base_url = "http://www.baidu.com"
+  url = base_url + urlencode(params)
+  print(url)
+  ```
+'''
+linesHighlighted: []
+isStarred: false
+isTrashed: false
