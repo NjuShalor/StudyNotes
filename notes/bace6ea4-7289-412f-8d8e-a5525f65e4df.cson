@@ -1,0 +1,114 @@
+createdAt: "2019-10-25T12:04:10.127Z"
+updatedAt: "2019-10-25T13:12:09.381Z"
+type: "MARKDOWN_NOTE"
+folder: "c37e1d68ae43af6fec7a"
+title: "正则表达式"
+tags: []
+content: '''
+  # 正则表达式
+  
+  ## re.match
+      re.match(pattern,string,flags=0)
+      re.match尝试从字符串的起始位置匹配一个模式，如果不是起始位置匹配成功的话，返回None
+  ### 常规匹配\\范匹配
+  ```
+  import re
+  
+  content = "Hello 123 4567 World_This is a Regex Demo"
+  print(len(content))
+  
+  # 常规匹配
+  result = re.match('^Hello\\s\\d{3}\\s\\d{4}\\s.*Demo$',content)
+  # 泛匹配
+  result = re.match('^Hello.*Demo$',content)
+  print(result)
+  print(result.group())
+  print(result.span())
+  ```
+  ### 匹配目标
+  对想匹配出来的目标，用()括出来，然后用result.group()进行输出,第一个括出来的是group(1)，第二个是group(2)
+  ```
+  import re
+  
+  content = "Hello 1234567 World_This is a Regex Demo"
+  result = re.match('^Hello\\s(\\d+)\\s.*Demo$',content)
+  print(result)
+  print(result.group(1))
+  print(result.span())
+  ```
+  ### 贪婪模式
+  下例中，第一个.\\*匹配了123456，即尽可能多的匹配
+  ```
+  import re
+  
+  content = "Hello 1234567 World_This is a Regex Demo"
+  result = re.match('^He.*(\\d+).*Demo$',content)
+  print(result)
+  print(result.group(1))
+  print(result.span())
+  ```
+  ### 非贪婪模式匹配
+  ```
+  import re
+  
+  content = "Hello 1234567 World_This is a Regex Demo"
+  result = re.match('^He.*?(\\d+).*Demo$',content)
+  print(result)
+  print(result.group(1))
+  print(result.span())
+  ```
+  ### 匹配模式
+  **【注意】**\\.可以匹配任意的字符除了换行符，因此对于有换行符的，我们要加上re.S参数
+  ```
+  import re
+  
+  content = \'''Hello 1234567 World_
+  This is a Regex Demo\'''
+  result = re.match('^He.*?(\\d+).*Demo$',content,re.S)
+  print(result)
+  print(result.group(1))
+  print(result.span())
+  ```
+  ### 转义
+  对于有特殊字符的，要用转义符\\进行转义
+  
+      总结:尽量用范匹配模式，使用括号得到匹配目标，尽量用非贪婪模式、有换行符就用re.S
+  
+  ## re.search
+  re.search扫描整个字符串并返回第一个成功的匹配
+  ## re.findall
+  找出所有符合条件的字符串
+  
+  ## re.sub
+  替换字符串中每一个匹配的子串后返回替换后的字符串
+  ```
+  import re
+  
+  content = \'''Hello 1234567 World_
+  This is a Regex Demo\'''
+  content = re.sub('\\d+','jjjjj',content,re.S)
+  print(content)
+  ```
+  **如果是替换的字符串就是本身，那么可以用\\1 来表示**
+  ```
+  import re
+  
+  content = \'''Hello 1234567 World_This is a Regex Demo\'''
+  content = re.sub('(\\d+)',r'\\1 8910',content,re.S)
+  print(content)
+  ```
+  
+  ## re.compile
+  将一个正则表达式串编译成一个正则对象，以便于复用该匹配模式
+  ```
+  import re
+  
+  content = \'''Hello 1234567 World_This is a Regex Demo\'''
+  pattern = re.compile('Hello.*?Demo$',re.S)
+  result = re.match(pattern,content)
+  print(result)
+  ```
+'''
+linesHighlighted: []
+isStarred: false
+isTrashed: false

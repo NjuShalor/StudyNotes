@@ -1,0 +1,136 @@
+createdAt: "2019-10-25T13:18:25.477Z"
+updatedAt: "2019-10-25T14:52:45.483Z"
+type: "MARKDOWN_NOTE"
+folder: "c37e1d68ae43af6fec7a"
+title: "BeautifulSoup库详解"
+tags: []
+content: '''
+  # BeautifulSoup库详解
+  ## 基本使用
+  ```
+  from bs4 import BeautifulSoup
+  soup = BeautifulSoup(html,'lxml')
+  print(soup.prettify()) # 可能各个</p>等不闭合，这个可以使之闭合
+  print(soup.title.string) # 输出title信息
+  ```
+  ### 选择元素
+  ```
+  from bs4 import BeautifulSoup
+  soup = BeautifulSoup(html,'lxml')
+  print(soup.title) # <titl>...</title>
+  print(type(soup.title)) # <class 'bs4.element.Tag'>
+  print(soup.head) # <head>...</head>
+  print(soup.p) # 只匹配第一个p标签
+  ```
+  ### 获取名称
+  ```
+  from bs4 import BeautifulSoup
+  soup = BeautifulSoup(html,'lxml')
+  print(soup.title.name) # title
+  ```
+  ### 获取属性和获取内容
+  ```
+  from bs4 import BeautifulSoup
+  soup = BeautifulSoup(html,'lxml')
+  
+  # 以下两种获取属性的方法效果一样
+  print(soup.p.attrs['name']) # dromouse
+  print(soup.p['name']) # dromouse
+  
+  # 获取内容
+  print(soup.p.string) # 获取段落文字
+  ```
+  ### 嵌套选择
+  ```
+  print(soup.head.title.string)
+  ```
+  ### 子节点和子孙节点
+      soup.p.contents直接返回子节点列表
+      soup.p.children返回子节点一个迭代器
+      soup.p.decendants返回子孙节点迭代器
+  ```
+  from bs4 import BeautifulSoup
+  soup = BeautifulSoup(html,'lxml')
+  print(soup.p.contents) # 返回所有子节点列表形式的结果
+  print(soup.p.children) # 返回子节点迭代器形式
+  print(soup.p.descendants) # 返回子孙节点迭代器形式
+  ```
+  ### 父节点和祖先节点
+      soup.a.parent 获取父节点
+      soup.a.parents 获取祖先节点
+  ```
+  soup = BeautifulSoup(html,'lxml')
+  print(soup.a.parent)
+  print(list(enumerate(soup.a.parents)))
+  ```
+  ### 兄弟节点
+  ```
+  soup = BeautifulSoup
+  print(list(enumerate(soup.a.next_siblings))) # 返回之后的兄弟节点
+  print(list(enumerate(soup.a.previous_siblings))) # 返回之前的兄弟节点
+  ```
+  
+  ## 标准选择器
+      find_all(name,attrs,recursive,**kwargs)
+      可根据标签名、属性、内容查找文档
+  **name**
+  ```
+  from bs4 import BeautifulSoup
+  soup = BeautifulSoup(html,'lxml')
+  print(soup.find_all('ul'))
+  print(type(soup.find_all('ul')[0])) # <class 'bs4.element.Tag'>
+  # 由于是Tag类型的，因此可以拿出来再次find_all
+  for ul in soup.find_all('ul'):
+      print(ul.find_all('li'))
+  ```
+  **attrs**
+  传入字典形式的结构，字典的key就是属性名称，字典的value就是属性值
+  ```
+  from bs4 import BeautifulSoup
+  soup = BeautifulSoup(html,'lxml')
+  print(soup.find_all(attrs={'id':'list-1'}))
+  
+  # 或者
+  print(soup.find_all(id='list-1'))
+  print(soup.find_all(class_='element')) # 注意：是class_，不是class
+  ```
+  **text**
+  ```
+  print(soup.find_all(text='Foo')) # ['Foo','Foo']只返回内容，不返回标签
+  ```
+  ***find()方法同find_all，只不过只返回一个***
+  
+  ## CSS选择器
+  通过select()直接传入CSS选择器即可完成选择
+  ```
+  from bs4 import BeautifulSoup
+  soup = BeautifulSoup(html,'lxml')
+  # 选择class时，用. ,即筛选class='panel'
+  print(soup.select('.panel .panel-heading'))
+  # 选择标签时，直接填入标签即可
+  print(soup.select('ur li'))
+  # 选择id时用#表示
+  print(soup.select('#list-2 .element'))
+  print(type(soup.select('ul')[0]))
+  ```
+  **获取属性，用[]获取**
+  ```
+  from bs4 import BeautifulSoup
+  soup = BeautifulSoup(html,'lxml')
+  for ul in soup.select('ul'):
+    print(ul['id'])
+    print(ul.attrs['id'])
+  # 两种方法返回是一样的
+  ```
+  **获取内容**
+  使用.get_text()方法返回其内容
+  ```
+  from bs4 import BeautifulSoup
+  soup = BeautifulSoup(html,'lxml')
+  for li in soup.select('li'):
+    print(li.get_text())
+  ```
+'''
+linesHighlighted: []
+isStarred: false
+isTrashed: false
