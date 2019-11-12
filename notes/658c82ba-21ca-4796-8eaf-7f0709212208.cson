@@ -1,0 +1,24 @@
+createdAt: "2019-11-09T12:34:14.619Z"
+updatedAt: "2019-11-09T12:34:17.283Z"
+type: "MARKDOWN_NOTE"
+folder: "c37e1d68ae43af6fec7a"
+title: "用Flask+Redis维护代理池"
+tags: []
+content: '''
+  # 用Flask+Redis维护代理池
+  ## 为什么要用代理池
+  - 许多网站有专门的的反爬虫措施，可能遇到封IP等问题
+  - 互联网上公开了大量免费代理，利用好资源
+  - 通过定时的检测维护同样可以得到多个可用代理
+  
+  ## 代理池的要求
+  - 多站抓取，异步检测
+  - 定时筛选，持续更新
+  - 提供接口，易于提取
+  
+  ## 代理池结构
+  Internet---获取器---过滤器---代理队列(API)---定时监测器
+'''
+linesHighlighted: []
+isStarred: false
+isTrashed: false

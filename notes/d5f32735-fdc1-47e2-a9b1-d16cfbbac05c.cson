@@ -1,0 +1,74 @@
+createdAt: "2019-10-29T14:25:08.575Z"
+updatedAt: "2019-10-30T06:07:15.298Z"
+type: "MARKDOWN_NOTE"
+folder: "c37e1d68ae43af6fec7a"
+title: "各种小问题"
+tags: []
+content: '''
+  # 各种小问题
+  ### 关于'\\u'转义问题
+  可以将字符串s先encode在decode
+  ```
+  s = 'http:\\\\u002F\\\\u002Fp3.pstatp.com\\\\u002Flarge\\\\u002Fpgc-image\\\\u002F7ea9899dee5c4e1b8a16efac51d5860a'
+  s = s.encode('utf-8').decode('unicode_escape')
+  ```
+  
+  ### 关于登录淘宝等网页问题
+  - **登录并下载保存cookie信息**
+  - **读取cookie信息实现免登录访问**
+  ```
+  import json
+  from selenium import webdriver
+  from selenium.webdriver.Chrome.options import Options
+  
+  options = Options()
+  dirver = webdriver.Chrome(options=options)
+  dirver.get(
+      'https://login.taobao.com/member/login.jhtml?redirectURL=http%3A%2F%2Fbuyertrade.taobao.com%2Ftrade%2Fitemlist%2Flist_bought_items.htm%3Fspm%3D875.7931836%252FB.a2226mz.4.66144265Vdg7d5%26t%3D20110530')
+  # 这里是为了等待手机扫码登录, 登录后回车即可
+  input("请回车登录")
+  dictCookies = dirver.get_cookies()
+  jsonCookies = json.dumps(dictCookies)
+  # 登录完成后,将cookies保存到本地文件
+  with open("cookies_tao.json", "w") as fp:
+      fp.write(jsonCookies)
+  ```
+  ```
+  import json
+  import time
+  from selenium import webdriver
+  from selenium.webdriver.firefox.options import Options
+  
+  options = Options()
+  options.add_argument("--headless")
+  dirver = webdriver.Firefox(executable_path=r"D:\\tools\\geckodriver.exe", options=options)
+  # 初次建立连接, 随后方可修改cookie
+  dirver.get('http://www.taobao.com')
+  # 删除第一次登录是储存到本地的cookie
+  dirver.delete_all_cookies()
+  # 读取登录时储存到本地的cookie
+  with open("cookies_tao.json", "r", encoding="utf8") as fp:
+      ListCookies = json.loads(fp.read())
+  
+  for cookie in ListCookies:
+      dirver.add_cookie({
+          'domain': '.taobao.com',  # 此处xxx.com前，需要带点
+          'name': cookie['name'],
+          'value': cookie['value'],
+          'path': '/',
+          'expires': None
+      })
+  
+  # 再次访问页面，便可实现免登陆访问
+  dirver.get("https://www.taobao.com")
+  time.sleep(3)
+  # 将页面保存为图片用于查看是否登录成功
+  dirver.save_screenshot("./taobao.png")
+  dirver.quit()
+  ```
+  
+  
+'''
+linesHighlighted: []
+isStarred: false
+isTrashed: false

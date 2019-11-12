@@ -1,0 +1,62 @@
+createdAt: "2019-11-12T13:00:08.615Z"
+updatedAt: "2019-11-12T15:23:48.183Z"
+type: "MARKDOWN_NOTE"
+folder: "e23473b738c0b865b7d5"
+title: "基本操作"
+tags: []
+content: '''
+  # 基本操作
+  
+  ## 版本的创建
+  ```
+  git add code.txt
+  git commit -m 'version1'
+  ```
+  ## 版本回退
+  ```
+  # 回退一个版本
+  git reset --hard HEAD^
+  
+  # 回退两个版本
+  git reset --hard HEAD^^
+  
+  # 或者用数字表示
+  git reset --hard HEAD~1
+  
+  # 或者直接使用版本编号
+  git log
+  git reset --hard ...
+  
+  # 如果中断关了，使用git log看不到其他版本怎么办？
+  # 使用git reflog查看之前的操作记录，然后使用之前的编号
+  git reflog
+  ```
+  
+  ## 撤销修改
+  可以直接将修改进行丢弃
+  ```
+  git checkout -- code.txt # 直接丢弃code.txt的改动
+  ```
+  如果已经`git add`进行暂存操作了，可以先放弃暂存，然后进行丢弃操作
+  ```
+  git reset HEAD code.txt
+  git checkout -- code.txt
+  ```
+  ## 对比文件的不同
+  对比工作区中的文件和HEAD版本中的不同
+  ```
+  git diff HEAD -- code.txt
+  ```
+  对比HEAD中和HEAD^版本中文件的不同
+  ```
+  git diff HEAD HEAD^ --code.txt
+  ```
+  
+  ## git log过长,以简短的形式显示
+  ```
+  git log --online
+  ```
+'''
+linesHighlighted: []
+isStarred: false
+isTrashed: false

@@ -9,6 +9,11 @@
       "key": "cf97a4deed47e7809d34",
       "color": "#FF8E00",
       "name": "网络编程"
+    },
+    {
+      "key": "e23473b738c0b865b7d5",
+      "color": "#30D5C8",
+      "name": "Git版本操作"
     }
   ],
   "version": "1.0"

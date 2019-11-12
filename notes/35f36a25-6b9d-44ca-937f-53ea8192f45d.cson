@@ -1,0 +1,28 @@
+createdAt: "2019-11-09T12:34:32.683Z"
+updatedAt: "2019-11-09T12:35:44.750Z"
+type: "MARKDOWN_NOTE"
+folder: "c37e1d68ae43af6fec7a"
+title: "使用Redis+Flask维护动态Cookie池"
+tags: []
+content: '''
+  # 使用Redis+Flask维护动态Cookie池
+  
+  ## 为什么要使用Cookie池
+  1. 网站需要登录才可爬取，例如新浪微博
+  2. 爬取过程中如果频率过高会导致封号
+  3. 需要维护多个账号的Cookie池来实现大规模爬取
+  
+  
+  ## Cookies池的要求
+  1. 自动登录更新
+  2. 定时验证筛选
+  3. 提供外部接口
+  
+  ## Cookies池架构
+  账号队列---生成器---Cookies队列(API)---定时监测器
+  
+  
+'''
+linesHighlighted: []
+isStarred: false
+isTrashed: false
