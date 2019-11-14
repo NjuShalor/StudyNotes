@@ -1,0 +1,37 @@
+createdAt: "2019-11-14T09:07:35.153Z"
+updatedAt: "2019-11-14T13:15:35.674Z"
+type: "MARKDOWN_NOTE"
+folder: "e23473b738c0b865b7d5"
+title: "GitHub的使用"
+tags: []
+content: '''
+  # GitHub的使用
+  ## 添加ssh
+  **将电脑中的ssh公钥添加进去即可**
+  ![avatar](C:/Users/Shalor/Desktop/Capture.PNG)
+  
+  **如何获取ssh公钥？**
+  1. 回到主目录下，修改.gitconfig文件(修改用户名和邮箱,邮箱为注册github的邮箱)
+  2. 然后输入`ssh-keygen -t rsa -C '邮箱'`
+  3. 然后进入生成文件的地址，找到id_rsa.pub文件，输入`cat id_rsa.pub`复制即可
+  
+  **使用ssh克隆项目如果出错，执行以下两个命令再克隆即可**
+  ```
+  eval "$(ssh-agent -s)"
+  ssh-add
+  git clone ...
+  ```
+  
+  ## 上传项目
+  1. 从远程(origin)克隆项目到本地之后，可以在本地新建一个分支进行开发
+  2. 推送时，可以输入`git push origin new_branch`将本地新建的new_branch分支推送到远程对应的new_branch分支，如果没有，远程会新建一个
+  
+  ## 将本地分支跟踪远程的分支
+  ```
+  git branch --set-upstream-to=origin/远程的分支名 本地的分支名
+  ```
+  
+'''
+linesHighlighted: []
+isStarred: false
+isTrashed: false

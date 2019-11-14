@@ -1,5 +1,5 @@
 createdAt: "2019-11-12T13:00:08.615Z"
-updatedAt: "2019-11-12T15:23:48.183Z"
+updatedAt: "2019-11-14T08:46:58.154Z"
 type: "MARKDOWN_NOTE"
 folder: "e23473b738c0b865b7d5"
 title: "基本操作"
@@ -54,7 +54,8 @@ content: '''
   
   ## git log过长,以简短的形式显示
   ```
-  git log --online
+  git log --oneline
+  git log --oneline --graph
   ```
 '''
 linesHighlighted: []

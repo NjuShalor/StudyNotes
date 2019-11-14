@@ -1,5 +1,5 @@
 createdAt: "2019-11-12T13:46:27.772Z"
-updatedAt: "2019-11-12T15:37:58.805Z"
+updatedAt: "2019-11-14T09:04:18.524Z"
 type: "MARKDOWN_NOTE"
 folder: "e23473b738c0b865b7d5"
 title: "git分支管理"
@@ -43,6 +43,13 @@ content: '''
   ```
   git merge --no-ff -m"禁用fast-forward" new_branch
   ```
+  
+  ## 修复Bug
+  遇到bug了，可以新建一个bug分支，修复后再删除分支，如果手头有正在做的事情，需要放下去修复Bug的，步骤如下：
+  1. 使用`git stash`,将工作现场保存起来
+  2. 切换到需要修复的Bug分支，然后创建新的Bug分支修复Bug，修好后，将Bug分支合并到主分支，然后删除Bug分支
+  3. 回到刚刚的工作分区，使用`git stash list`列出保存的工作现场
+  4. 使用`git stash pop`来恢复工作现场
   
   
 '''
